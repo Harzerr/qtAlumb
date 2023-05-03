@@ -1,0 +1,86 @@
+/*mainwindow 样式*/
+MainWindow {
+    /* 背景色 */
+    background-color:rgb(255,223,228);
+}
+
+/*菜单栏基本样式*/
+QMenuBar{
+    color:rgb(231,231,231);
+    background-color:rgb(46,47,48);
+}
+
+/*菜单基本样式*/
+QMenu{
+    color:rgb(231,231,231);
+    background-color:rgb(55,55,55);
+}
+
+
+/* 菜单栏选中条目时 */
+
+QMenuBar::item:selected {
+        background-color:rgb(80,80,80);
+}
+
+/*菜单选中条目*/
+QMenu::item:selected {
+    background-color:rgb(39,96,154);
+}
+
+QWizard {
+    color:rgb(231,231,231);
+    background-color:rgb(55,55,55);
+}
+
+QWizard QLable#tips{
+    color:orange;
+}
+
+
+ProTree{
+    border-color:#9f9f9f;
+    border-style:solid;
+    border-width:1px 1px 1px 1px;
+    padding-right:10px;
+}
+QLable#lable_pro{
+    color:rgb(231,231,231);
+    border-color:#9f9f9f;
+    border-style:dotted;
+    border-width:0 0 1px 0;
+    padding-bottom:10px;
+    margin-botton:5px;
+}
+QTreeView{
+    color:rgb(231,231,231);
+    background-color:rgb(46,47,48);
+}
+
+QTreeView::item:hover{
+    background-color:rgb(38,95,153);
+}
+QTreeView::item:selected{
+    background-color:rgb(38,95,153);
+}
+
+QTreeView::branch:open:has-children:!has-siblings,
+QTreeView::branch:open:has-children:has-siblings{image: :/icon/picture.png;}
+
+QTreeView::branch:closed:has-children:!has-siblings,
+TreeView::branch:closed:has-children:has-siblings{image: url(:/icon/picture.png);}
+
+
+
+PicShow{
+    border-color:#9f9f9f;
+    border-style:solid;
+    border-width:1px 1px 1px 1px;
+    padding:10px;
+    background:rgb(64,66, 68);
+
+}
+#nextBtn,#previousBtn{
+    border:0px;
+}
+
