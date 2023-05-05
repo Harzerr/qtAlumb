@@ -33,10 +33,10 @@
        <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="proLayout" stretch=""/>
+       <layout class="QVBoxLayout" name="proLayout"/>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="picLayout" stretch=""/>
+       <layout class="QVBoxLayout" name="picLayout"/>
       </item>
      </layout>
     </item>

@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    this->setMinimumSize(500, 400);
     ui->setupUi(this);
 //    创建菜单
     QMenu * menu_file = menuBar()->addMenu(tr("文件（&F）"));
@@ -37,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     //连接创建项目槽函数
     connect(act_create_pro, &QAction::triggered, this, &MainWindow::SlotCreatePro);
     connect(act_open_pro, &QAction::triggered, this, &MainWindow::SlotOpenPro);
+
+    //目录树
     _protree = new ProTree();
     ui->proLayout->addWidget(_protree);
     QTreeWidget* tree_widget = dynamic_cast<ProTree*> (_protree)->GetTreeWidget();
@@ -48,16 +51,29 @@ MainWindow::MainWindow(QWidget *parent)
 
   //  connect(act_open_pro, &QAction::triggered, this, &MainWindow::SlotOpenPro);//写了两遍啊啊啊西
     connect(this, &MainWindow::SigOpenPro, pro_tree_widget, &ProTreeWidget::SlotOpenPro);
-
+//    连接照片展示的槽函数
     _picshow = new PicShow();
     ui->picLayout->addWidget(_picshow);
     auto * pro_pic_show =  dynamic_cast<PicShow*>(_picshow);
     connect(pro_tree_widget, &ProTreeWidget::SigUpdateSelected, pro_pic_show, &PicShow::SlotSelectItem);
+    connect(pro_pic_show, &PicShow::SigNextClicked,pro_tree_widget, &ProTreeWidget::SlotNextShow );
+     connect(pro_pic_show, &PicShow::SigPreClicked,pro_tree_widget, &ProTreeWidget::SlotPreShow );
+    connect(pro_tree_widget, &ProTreeWidget::SigUpdatePic, pro_pic_show, &PicShow::SlotUpdatePic);
+     connect(pro_tree_widget, &ProTreeWidget::SigClearSelected, pro_pic_show, &PicShow::SlotDeleteItem);
+
+    connect(act_music, &QAction::triggered, pro_tree_widget, &ProTreeWidget::SlotSetMusic);
 }
 
 MainWindow::~MainWindow()
 {
-     delete ui;
+    delete ui;
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    auto * pro_pix_show = dynamic_cast<PicShow*> (_picshow);
+    pro_pix_show->ReloadPic();
+    QMainWindow::resizeEvent(event);
 }
 
 void MainWindow::SlotCreatePro(bool)

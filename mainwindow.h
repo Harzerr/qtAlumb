@@ -3,7 +3,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QResizeEvent>
 
 
 QT_BEGIN_NAMESPACE
@@ -18,7 +18,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
 private:
     Ui::MainWindow *ui;
     QWidget* _protree;

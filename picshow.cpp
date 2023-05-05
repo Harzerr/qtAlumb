@@ -25,11 +25,25 @@ PicShow::PicShow(QWidget *parent) :
     _animation_show_next = new QPropertyAnimation(opacity_next, "opacity",  this);
     _animation_show_next->setEasingCurve(QEasingCurve::Linear);
     _animation_show_next->setDuration(500);
+
+    connect(ui->nextBtn, &QPushButton::clicked, this, &PicShow::SigNextClicked);
+    connect(ui->previousBtn, &QPushButton::clicked, this, &PicShow::SigPreClicked);
 }
 
 PicShow::~PicShow()
 {
     delete ui;
+}
+
+void PicShow::ReloadPic()
+{
+    if(_selected_path != ""){
+        const auto  & width = ui->gridLayout->geometry().width();
+        const auto & height = ui->gridLayout->geometry().height();
+        _pixmap.load(_selected_path);
+        _pixmap = _pixmap.scaled(width, height, Qt::KeepAspectRatio);
+        ui->label->setPixmap(_pixmap);
+    }
 }
 
 bool PicShow::event(QEvent *e)
@@ -88,4 +102,21 @@ void PicShow::SlotSelectItem(const QString &path)
     auto height = this->height() - 20;
     _pixmap = _pixmap.scaled(width, height, Qt::KeepAspectRatio);
     ui->label->setPixmap(_pixmap);
+}
+
+void PicShow::SlotUpdatePic(const QString &path)
+{
+    _selected_path = path;
+    if(_selected_path != ""){
+        const auto  & width = ui->gridLayout->geometry().width();
+        const auto & height = ui->gridLayout->geometry().height();
+        _pixmap.load(_selected_path);
+        _pixmap = _pixmap.scaled(width, height, Qt::KeepAspectRatio);
+        ui->label->setPixmap(_pixmap);
+    }
+}
+
+void PicShow::SlotDeleteItem()
+{
+    _selected_path = "";
 }

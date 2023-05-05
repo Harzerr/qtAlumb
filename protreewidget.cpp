@@ -1,4 +1,4 @@
-
+#include <QUrl>
 #include "protreewidget.h"
 #include <QDir>
 #include "protreeitem.h"
@@ -10,7 +10,7 @@
 #include <QDebug>
 #include "protreethread.h"
 #include "removeprodialog.h"
-
+#include "slideshowdlg.h"
 
 ProTreeWidget::ProTreeWidget(QWidget *parent):QTreeWidget(parent),
     _right_btn_item(nullptr),_active_item(nullptr),_dialog_progress(nullptr), _selected_item(nullptr)
@@ -27,8 +27,12 @@ ProTreeWidget::ProTreeWidget(QWidget *parent):QTreeWidget(parent),
     connect(_action_import, &QAction::triggered, this, &ProTreeWidget::SlotImport);
     connect(_action_setstart, &QAction::triggered, this, &ProTreeWidget::SlotSetActive);
     connect(_action_closepro, &QAction::triggered, this, &ProTreeWidget::SlotClosePro);
-
     connect(this, &ProTreeWidget::itemDoubleClicked, this, &ProTreeWidget::SlotDoubleClickItem);
+    connect(_action_slideshow, &QAction::triggered, this, &ProTreeWidget::SlotSlideShow);
+    _player = new  QMediaPlayer(this);
+    _playerlist = new QMediaPlaylist(this);
+    _playerlist->setPlaybackMode(QMediaPlaylist::Loop);
+    _player->setPlaylist(_playerlist);
 }
 
 void ProTreeWidget::AddProTree(const QString &name, const QString &path)
@@ -80,6 +84,72 @@ void ProTreeWidget::SlotOpenPro(const QString &path)
     _open_progressdlg->exec();
 }
 
+void ProTreeWidget::SlotNextShow()
+{
+    if(!_selected_item){
+        return ;
+    }
+    auto * curItem = dynamic_cast<ProTreeItem*>(_selected_item)->GetNextItem();
+    if(!curItem){
+        return ;
+    }
+    emit SigUpdatePic(curItem->GetPath());
+    _selected_item = curItem;
+    this->setCurrentItem(curItem);
+}
+
+void ProTreeWidget::SlotPreShow()
+{
+    if(!_selected_item){
+        return ;
+    }
+    auto * curItem = dynamic_cast<ProTreeItem*>(_selected_item)->GetPreItem() ;
+    if(!curItem){
+        return ;
+    }
+    emit SigUpdatePic(curItem->GetPath());
+    _selected_item = curItem;
+    this->setCurrentItem(curItem);
+}
+
+void ProTreeWidget::SlotSetMusic()
+{
+    QFileDialog file_dialog;
+    file_dialog.setFileMode(QFileDialog::ExistingFiles);
+    file_dialog.setWindowTitle(tr("选择导入音乐"));
+    file_dialog.setDirectory(QDir::currentPath());
+    file_dialog.setViewMode(QFileDialog::Detail);
+    file_dialog.setNameFilter("(*.mp3)");
+    QStringList fileNames;
+    if(file_dialog.exec()){
+        fileNames = file_dialog.selectedFiles();
+    }
+    else{
+        return ;
+    }
+    if(fileNames.length() <= 0){
+        return ;
+    }
+
+    _playerlist->clear();
+    for(auto filename: fileNames){
+        _playerlist->addMedia(QUrl::fromLocalFile(filename));
+
+    }
+    if(_player->state() != QMediaPlayer::PlayingState){
+        _playerlist->setCurrentIndex(0);
+
+    }
+}
+
+void ProTreeWidget::SlotStopMusic()
+{
+    _player->play();
+}
+void ProTreeWidget::SlotStartMusic()
+{
+     _player->pause();
+}
 void ProTreeWidget::SlotItemPressed(QTreeWidgetItem *pressedItem, int column)
 {
     if(QGuiApplication::mouseButtons() == Qt::RightButton){
@@ -177,7 +247,7 @@ void ProTreeWidget::SlotClosePro()
     bool b_remove = remove_pro_dialog.IsRemoved();
     auto index_right_btn = this->indexOfTopLevelItem(_right_btn_item);
     auto * protreeitem = dynamic_cast<ProTreeItem*> (_right_btn_item);
-//    auto * selecteditem = dynamic_cast<ProTreeItem*>(_selected_item);
+    auto * selecteditem = dynamic_cast<ProTreeItem*>(_selected_item);
     auto delete_path = protreeitem->GetPath();
     _set_path.remove(delete_path);
     if(b_remove){
@@ -186,6 +256,11 @@ void ProTreeWidget::SlotClosePro()
     }
     if(protreeitem == _active_item){
         _active_item = nullptr;
+    }
+    if(selecteditem && protreeitem == selecteditem->GetRoot()){
+        selecteditem = nullptr;
+        _selected_item = nullptr;
+        emit SigClearSelected();
     }
     delete this->takeTopLevelItem(index_right_btn);
     _right_btn_item = nullptr;
@@ -243,5 +318,28 @@ void ProTreeWidget::SlotCancelOpenProgress()
     emit SigCancelOpenProgress();
     delete _open_progressdlg;
     _open_progressdlg  = nullptr;
+}
+
+void ProTreeWidget::SlotSlideShow()
+{
+    if(!_right_btn_item){
+         return ;
+    }
+    auto * right_pro_item = dynamic_cast<ProTreeItem*> (_right_btn_item);
+    auto * last_child_item = right_pro_item->GetLastPicChild();
+    if(!last_child_item){
+         return ;
+    }
+    auto * first_child_item = right_pro_item->GetFirstPicChild();
+    if(!first_child_item){
+         return ;
+    }
+    qDebug()<<"first child item is "<<first_child_item->GetPath();
+    qDebug()<<"last child item is "<<last_child_item->GetPath();
+
+    _slide_show_dlg = std::make_shared<SlideShowDlg>(this, first_child_item,last_child_item);
+    _slide_show_dlg->setModal(true);
+    _slide_show_dlg->showMaximized();
+
 }
 
