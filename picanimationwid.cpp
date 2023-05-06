@@ -1,4 +1,4 @@
-
+#include <QDebug>
 #include "picanimationwid.h"
 #include <QTimer>
 #include "protreeitem.h"
@@ -12,6 +12,7 @@ PicAnimationWid::PicAnimationWid(QWidget *parent)
 
 PicAnimationWid::~PicAnimationWid()
 {
+    _timer->stop();//问题可能在这
 
 }
 
@@ -27,6 +28,7 @@ void PicAnimationWid::SetPixmap(QTreeWidgetItem *item)
     _cur_item = tree_item;
     if(_map_items.find(path) == _map_items.end()){
         _map_items[path] = tree_item;
+        qDebug() << "SetPixmap path is " << path << endl;
         emit SigUpdatePreList(item);
     }
     emit SigSelectItem(item);
@@ -152,7 +154,7 @@ void PicAnimationWid::TimeOunt()
     }
     _factor += 0.01;
     if(_factor >= 1){
-        _factor = 0.0 ;
+        _factor = 0;
         auto* cur_pro_item = dynamic_cast<ProTreeItem*>(_cur_item);
         auto * next_pro_item = cur_pro_item->GetNextItem();
         if(!next_pro_item){
@@ -174,9 +176,12 @@ void PicAnimationWid::paintEvent(QPaintEvent *event)
     }
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
+
     QRect rect = geometry();
+
     int w = rect.width();
     int h = rect.height();
+
     _pixmap1 = _pixmap1.scaled(w, h, Qt::KeepAspectRatio);
     int alpha  = 255*(1.0f - _factor);
     QPixmap alphaPixmap(_pixmap1.size());
@@ -185,14 +190,14 @@ void PicAnimationWid::paintEvent(QPaintEvent *event)
     QPainter p1(&alphaPixmap);
     p1.setCompositionMode(QPainter::CompositionMode_Source);
     p1.drawPixmap(0,0,_pixmap1);
-    p1.setCompositionMode(QPainter::CompositionMode_Destination);
+    p1.setCompositionMode(QPainter::CompositionMode_DestinationIn);
     p1.fillRect(alphaPixmap.rect(),QColor(0,0,0, alpha));
     p1.end();
 
     int x = (w-_pixmap1.width())/2;
     int y = (h - _pixmap1.height())/2;
     painter.drawPixmap(x, y, alphaPixmap);
-
+//daozheweizhi
     if(_pixmap2.isNull()){
         return ;
     }
@@ -203,7 +208,7 @@ void PicAnimationWid::paintEvent(QPaintEvent *event)
      QPainter p2(&alphaPixmap2);
      p2.setCompositionMode(QPainter::CompositionMode_Source);
      p2.drawPixmap(0,0,_pixmap2);
-     p2.setCompositionMode(QPainter::CompositionMode_Destination);
+     p2.setCompositionMode(QPainter::CompositionMode_DestinationIn);
      p2.fillRect(alphaPixmap2.rect(),QColor(0,0,0, alpha));
      p2.end();
       x = (w-_pixmap2.width())/2;

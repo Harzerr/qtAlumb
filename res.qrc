@@ -1,8 +1,28 @@
 <RCC>
     <qresource prefix="/">
-        <file>icon/picture.ico</file>
         <file>style/style.qss</file>
-        <file>icon/computer.ico</file>
+        <file>icon/music.png</file>
+        <file>icon/project.png</file>
+        <file>icon/project_open.png</file>
+        <file>icon/close.png</file>
+        <file>icon/pause.png</file>
+        <file>icon/play.png</file>
+        <file>icon/create (2).png</file>
+        <file>icon/create.png</file>
         <file>icon/picture.png</file>
+        <file>icon/import.png</file>
+        <file>icon/playmulti.png</file>
+        <file>icon/set.png</file>
+        <file>icon/exit.png</file>
+        <file>icon/next.png</file>
+        <file>icon/pre.png</file>
+        <file>icon/next_hover.png</file>
+        <file>icon/next_pressed.png</file>
+        <file>icon/pre_hover.png</file>
+        <file>icon/pre_pressed.png</file>
+        <file>icon/close_hover.png</file>
+        <file>icon/pause_hover.png</file>
+        <file>icon/play_hovor.png</file>
+        <file>icon/picture.ico</file>
     </qresource>
 </RCC>

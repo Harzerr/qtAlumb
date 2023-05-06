@@ -77,7 +77,7 @@ void ProTreeThread::CreateProTree(const QString &src_path, const QString &dist_p
             }
             auto * item = new ProTreeItem(parent_item, fileInfo.fileName(), sub_dist_path,root, TreeItemDir);
             item->setData(0, Qt::DisplayRole,fileInfo.fileName());
-              item->setData(0, Qt::DecorationRole, QIcon(":/icon/picture.png"));
+              item->setData(0, Qt::DecorationRole, QIcon(":/icon/project.png"));
             item->setData(0, Qt::ToolTipRole, sub_dist_path);
               CreateProTree(fileInfo.absoluteFilePath(), sub_dist_path, item, file_count, self, root, preItem);
 

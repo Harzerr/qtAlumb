@@ -20,14 +20,16 @@ ProTreeWidget::ProTreeWidget(QWidget *parent):QTreeWidget(parent),
 //    qRegisterMetaType<QVector<int> >("QVector<int>");
     this->header()->hide();
     connect(this, &ProTreeWidget::itemPressed, this, &ProTreeWidget::SlotItemPressed);
-    _action_import = new QAction(QIcon(":/icon/picture.png"), tr("导入文件"), this);
-    _action_setstart = new QAction(QIcon(":/icon/picture.png"), tr("设置活动项目"), this);
-    _action_closepro = new QAction(QIcon(":/icon/picture.png"), tr("关闭项目"), this);
-    _action_slideshow = new QAction(QIcon(":/icon/picture.png"), tr("轮播图播放"), this);
+    _action_import = new QAction(QIcon(":/icon/import.png"), tr("导入文件"), this);
+    _action_setstart = new QAction(QIcon(":/icon/set.png"), tr("设置活动项目"), this);
+    _action_closepro = new QAction(QIcon(":/icon/exit.png"), tr("关闭项目"), this);
+//轮播图播放
+    _action_slideshow = new QAction(QIcon(":/icon/playmulti.png"), tr("轮播图播放"), this);
     connect(_action_import, &QAction::triggered, this, &ProTreeWidget::SlotImport);
     connect(_action_setstart, &QAction::triggered, this, &ProTreeWidget::SlotSetActive);
     connect(_action_closepro, &QAction::triggered, this, &ProTreeWidget::SlotClosePro);
     connect(this, &ProTreeWidget::itemDoubleClicked, this, &ProTreeWidget::SlotDoubleClickItem);
+
     connect(_action_slideshow, &QAction::triggered, this, &ProTreeWidget::SlotSlideShow);
     _player = new  QMediaPlayer(this);
     _playerlist = new QMediaPlaylist(this);
@@ -52,7 +54,7 @@ void ProTreeWidget::AddProTree(const QString &name, const QString &path)
     _set_path.insert(file_path);
     auto * item = new ProTreeItem(this, name, file_path, TreeItemPro);
     item->setData(0, Qt::DisplayRole, name);
-    item->setData(0, Qt::DecorationRole, QIcon(":icon/picture.png"));
+    item->setData(0, Qt::DecorationRole, QIcon(":icon/picture2.png"));
     item->setData(0, Qt::ToolTipRole, file_path);
     this->addTopLevelItem(item);
 
@@ -156,8 +158,10 @@ void ProTreeWidget::SlotStopMusic()
 }
 void ProTreeWidget::SlotItemPressed(QTreeWidgetItem *pressedItem, int column)
 {
+      qDebug() << "ProTreeWidget::SlotItemPressed" << endl;
     if(QGuiApplication::mouseButtons() == Qt::RightButton){
         QMenu menu(this);
+         qDebug() << "menu addr is " << &menu << endl;
         int itemtype = pressedItem->type();
         if(itemtype == TreeItemPro){
             _right_btn_item = pressedItem;
@@ -165,6 +169,7 @@ void ProTreeWidget::SlotItemPressed(QTreeWidgetItem *pressedItem, int column)
             menu.addAction(_action_setstart);
             menu.addAction(_action_slideshow);
             menu.addAction(_action_closepro);
+
             menu.exec(QCursor::pos());
         }
     }
@@ -341,7 +346,7 @@ void ProTreeWidget::SlotSlideShow()
     qDebug()<<"first child item is "<<first_child_item->GetPath();
     qDebug()<<"last child item is "<<last_child_item->GetPath();
 
-    _slide_show_dlg = std::make_shared<SlideShowDlg>(this, first_child_item,last_child_item);
+    _slide_show_dlg = std::make_shared<SlideShowDlg>(this, first_child_item, last_child_item);
     _slide_show_dlg->setModal(true);
     _slide_show_dlg->showMaximized();
 

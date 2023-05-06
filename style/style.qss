@@ -1,40 +1,43 @@
 /*mainwindow 样式*/
 MainWindow {
     /* 背景色 */
-    background-color:rgb(255,223,228);
+   /* background-color:rgb(255,223,228);*/
+
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                 stop:0 white, stop: 0.4 #FFEFBA, stop:1 #FFFFFF)
 }
 
 /*菜单栏基本样式*/
 QMenuBar{
-    color:rgb(231,231,231);
-    background-color:rgb(46,47,48);
+    color:#444444;
+    background-color:#FFF8DC;
 }
 
 /*菜单基本样式*/
 QMenu{
-    color:rgb(231,231,231);
-    background-color:rgb(55,55,55);
+    color:#444444;
+    background-color:#f4e1be;
 }
 
 
 /* 菜单栏选中条目时 */
 
 QMenuBar::item:selected {
-        background-color:rgb(80,80,80);
+        background-color:#f4e1be;
 }
 
 /*菜单选中条目*/
 QMenu::item:selected {
-    background-color:rgb(39,96,154);
+    background-color:#FFF8DC;
 }
 
 QWizard {
-    color:rgb(231,231,231);
-    background-color:rgb(55,55,55);
+    color:#444444;
+    background-color:FFF8DC;
 }
 
 QWizard QLable#tips{
-    color:orange;
+    color:red;
 }
 
 
@@ -45,7 +48,7 @@ ProTree{
     padding-right:10px;
 }
 QLable#lable_pro{
-    color:rgb(231,231,231);
+    color:#444444;
     border-color:#9f9f9f;
     border-style:dotted;
     border-width:0 0 1px 0;
@@ -53,22 +56,22 @@ QLable#lable_pro{
     margin-botton:5px;
 }
 QTreeView{
-    color:rgb(231,231,231);
-    background-color:rgb(46,47,48);
+    color:#444444;
+    background-color:#FFFFFA;
 }
 
 QTreeView::item:hover{
-    background-color:rgb(38,95,153);
+    background-color:#f4e1be;
 }
 QTreeView::item:selected{
-    background-color:rgb(38,95,153);
+    background-color:#ebd6af;
 }
 
 QTreeView::branch:open:has-children:!has-siblings,
-QTreeView::branch:open:has-children:has-siblings{image: :/icon/picture.png;}
+QTreeView::branch:open:has-children:has-siblings{image: url(:/icon/project_open.png);}
 
 QTreeView::branch:closed:has-children:!has-siblings,
-TreeView::branch:closed:has-children:has-siblings{image: url(:/icon/picture.png);}
+TreeView::branch:closed:has-children:has-siblings{image: url(:/icon/project.png);}
 
 
 
@@ -77,26 +80,28 @@ PicShow{
     border-style:solid;
     border-width:1px 1px 1px 1px;
     padding:10px;
-    background:rgb(64,66, 68);
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                 stop:0 white, stop: 0.4 #FFEFBA, stop:1 #FFFFFF)
 
 }
 #nextBtn,#previousBtn, #closeBtn, #playBtn, #slidepreBtn, #slidenextBtn{
     border:0px;
 }
 SlideShowDlg {
-    color:rgb(231, 231,231);
-    background-color:rgb(46,47,48);
+    color:#444444;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                 stop:0 white, stop: 0.4 #FFEFBA, stop:1 #FFFFFF)
 }
 #preListWidget{
-    color:rgb(231, 231,231);
-    background-color:rgb(46,47,48);
+    color:#444444;
+    background-color:#FFFFFA;
     border:0px;
 }
 #preListWidget::item::hover{
-    background:rgb(38,95,153);
+    background:#f4e1be;
 }
 #preListWidget::item::selected{
-    background:rgb(38,95,153);
+    background:#ebd6af;
 }
 
 #slidenextwid{

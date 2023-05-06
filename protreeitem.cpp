@@ -62,7 +62,7 @@ ProTreeItem *ProTreeItem::GetLastPicChild()
         if(!last_child){
             continue;
         }
-         qDebug()<<"last_child_item is : "<<last_tree_item->GetPath()<<endl;
+//         qDebug()<<"last_child_item is : "<<last_tree_item->GetPath()<<endl;
         last_tree_item = dynamic_cast<ProTreeItem*>(last_child);
         return last_tree_item;
     }
@@ -82,7 +82,7 @@ ProTreeItem *ProTreeItem::GetFirstPicChild()
     for(int i =0; i<= child_count-1; i--){
         auto * first_child = this->child(i);
         auto * first_tree_item = dynamic_cast<ProTreeItem*> (first_child);
-        int item_type = first_tree_item->type();
+        auto item_type = first_tree_item->type();
         if(item_type == TreeItemPic){
             return first_tree_item;
         }
@@ -90,7 +90,7 @@ ProTreeItem *ProTreeItem::GetFirstPicChild()
         if(!first_child){
             continue;
         }
-        qDebug()<<"first_child_item is : "<<first_tree_item->GetPath()<<endl;
+       // qDebug()<<"first_child_item is : "<<first_tree_item->GetPath()<<endl;
         first_tree_item = dynamic_cast<ProTreeItem*>(first_child);
         return first_tree_item;
     }

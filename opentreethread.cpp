@@ -16,7 +16,7 @@ void OpenTreeThread::OpenProTree(const QString &src_path, int &file_count, QTree
     auto name = src_dir.dirName();
     auto * item = new ProTreeItem(self , name, src_path, TreeItemPro);
     item->setData(0, Qt::DisplayRole, name);
-    item->setData(0, Qt::DecorationRole, QIcon(":/icon/picture.png"));
+    item->setData(0, Qt::DecorationRole, QIcon(":/icon/project.png"));
     item->setData(0, Qt::ToolTipRole,src_path);
     _root = item;
     RecursiveProTree(src_path,file_count,self,_root,item, nullptr);
@@ -59,7 +59,7 @@ void OpenTreeThread::RecursiveProTree(const QString &src_path, int &file_count, 
                                          _root, TreeItemDir);
 
             item->setData(0, Qt::DisplayRole,  fileInfo.fileName());
-            item->setData(0, Qt::DecorationRole, QIcon(":/icon/picture.png"));
+            item->setData(0, Qt::DecorationRole, QIcon(":/icon/project.png"));
             item->setData(0, Qt::ToolTipRole, fileInfo.absoluteFilePath());
             RecursiveProTree(fileInfo.absoluteFilePath(), file_count, self,root,item, preitem);
         }

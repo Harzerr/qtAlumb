@@ -7,8 +7,8 @@ PicShow::PicShow(QWidget *parent) :
     ui(new Ui::PicShow)
 {
     ui->setupUi(this);
-    ui->previousBtn->SetIcons(":/icon/picture.png", ":/icon/computer.png", ":/icon/picture.png");
-    ui->nextBtn->SetIcons(":/icon/picture.png", ":/icon/computer.png", ":/icon/picture.png");
+    ui->previousBtn->SetIcons(":/icon/pre.png", ":/icon/pre_hover.png", ":/icon/pre_pressed.png");
+    ui->nextBtn->SetIcons(":/icon/next.png", ":/icon/next_hover.png", ":/icon/next_pressed.png");
 
     QGraphicsOpacityEffect * opacity_pre  = new QGraphicsOpacityEffect(this);
     opacity_pre->setOpacity(0);

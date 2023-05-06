@@ -20,18 +20,18 @@ MainWindow::MainWindow(QWidget *parent)
 //    创建菜单
     QMenu * menu_file = menuBar()->addMenu(tr("文件（&F）"));
 //        创建项目动作
-    QAction *act_create_pro = new QAction(QIcon(":/icon/picture.ico"),tr("创建项目"), this);
+    QAction *act_create_pro = new QAction(QIcon(":/icon/create (2).png"),tr("创建项目"), this);
     act_create_pro->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
 
     menu_file->addAction(act_create_pro);
 
-    QAction * act_open_pro = new QAction(QIcon(":/icon/picture.ico"), tr("打开项目"),this);
+    QAction * act_open_pro = new QAction(QIcon(":/icon/project_open.png"), tr("打开项目"),this);
     act_open_pro->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_O));
     menu_file->addAction(act_open_pro);
 //    创建设置菜单
     QMenu * menu_set = menuBar()->addMenu(tr("设置(&S)"));
     //设置背景音乐
-    QAction * act_music = new QAction(QIcon(":/icon/picture.ico"), tr("背景音乐"),this);
+    QAction * act_music = new QAction(QIcon(":/icon/music.png"), tr("背景音乐"),this);
     act_music->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
     menu_set->addAction(act_music);
 

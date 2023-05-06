@@ -10,12 +10,13 @@ SlideShowDlg::SlideShowDlg(QWidget *parent, QTreeWidgetItem *first_item, QTreeWi
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::Dialog|Qt::FramelessWindowHint);
-    ui->slidepreBtn->SetIcons(":/icon/picture.png", ":/icon/computer.ico", ":/icon/picture.png");
+    ui->slidepreBtn->SetIcons(":/icon/pre.png", ":/icon/pre_hover.png", ":/icon/pre_pressed.png");
 
-    ui->slidenextBtn->SetIcons(":/icon/picture.png", ":/icon/computer.ico", ":/icon/picture.png");
-    ui->closeBtn->SetIcons(":/icon/picture.png", ":/icon/computer.ico", ":/icon/picture.png");
-    ui->playBtn->SetIcons(":/icon/picture.png", ":/icon/computer.ico", ":/icon/picture.png",
-                          ":/icon/picture.png", ":/icon/computer.ico", ":/icon/picture.png");
+    ui->slidenextBtn->SetIcons(":/icon/next.png", ":/icon/next_hover.png", ":/icon/next_pressed.png");
+
+    ui->closeBtn->SetIcons(":/icon/close.png", ":/icon/close_hover.png", ":/icon/close_hover.png");
+    ui->playBtn->SetIcons(":/icon/play.png", ":/icon/pause_hover.png", ":/icon/pause.png",
+                          ":/icon/pause.png", ":/icon/play_hovor.png", ":/icon/play.png");
 
     connect(ui->closeBtn, &QPushButton::clicked, this, &SlideShowDlg::close);
     connect(ui->slidenextBtn, &QPushButton::clicked,this, &SlideShowDlg::SlotSlideNext);
