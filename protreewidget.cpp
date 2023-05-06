@@ -117,9 +117,11 @@ void ProTreeWidget::SlotSetMusic()
     QFileDialog file_dialog;
     file_dialog.setFileMode(QFileDialog::ExistingFiles);
     file_dialog.setWindowTitle(tr("选择导入音乐"));
+
     file_dialog.setDirectory(QDir::currentPath());
     file_dialog.setViewMode(QFileDialog::Detail);
     file_dialog.setNameFilter("(*.mp3)");
+
     QStringList fileNames;
     if(file_dialog.exec()){
         fileNames = file_dialog.selectedFiles();
@@ -132,9 +134,9 @@ void ProTreeWidget::SlotSetMusic()
     }
 
     _playerlist->clear();
-    for(auto filename: fileNames){
+    for(auto filename : fileNames){
+        qDebug() << "filename is " << filename << endl;
         _playerlist->addMedia(QUrl::fromLocalFile(filename));
-
     }
     if(_player->state() != QMediaPlayer::PlayingState){
         _playerlist->setCurrentIndex(0);
@@ -142,12 +144,14 @@ void ProTreeWidget::SlotSetMusic()
     }
 }
 
-void ProTreeWidget::SlotStopMusic()
-{
-    _player->play();
-}
 void ProTreeWidget::SlotStartMusic()
 {
+     qDebug()<< "ProTreeWidget::SlotStartMusic" << endl;
+    _player->play();
+}
+void ProTreeWidget::SlotStopMusic()
+{
+    qDebug()<< "ProTreeWidget::SlotStopMusic" << endl;
      _player->pause();
 }
 void ProTreeWidget::SlotItemPressed(QTreeWidgetItem *pressedItem, int column)
